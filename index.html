@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YouTube Controller.js</title>
+        <link type="text/css" rel="stylesheet" href="css/styles.css" />
+        <link type="text/css" rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" />
+        <link type="text/css" rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/obsidian.min.css" />
+    </head>
+    <body>
+        <div id="contentWrapper">
+            <header>
+                <img height="50" alt="YouTube logo" src="images/youtube_logo.png" />
+                <h1>Controller.js</h1>
+                <div class="clear"></div>
+            </header>
+
+            <section>
+                <h2>A jQuery plugin enabling you to control YouTube video players.</h2>
+                <div class="buttons">
+                    <a href="https://github.com/WatersChurch/web_tools/zipball/master" class="download">
+                        <span>Download</span>
+                    </a>
+                    <a href="https://github.com/WatersChurch/web_tools/tree/master/js/youtube_controller" class="source">
+                        <span>View Source</span>
+                    </a>
+                </div>
+            </section>
+
+            <div class="spacer"></div>
+
+            <section>
+                <div id="main_player"></div>
+                <div id="main_player_ctrls">
+                    <button onclick="$('#main_player').data('plugin_YTController').play()">Play</button>
+                    <button onclick="$('#main_player').data('plugin_YTController').pause()">Pause</button>
+                    <button onclick="$('#main_player').data('plugin_YTController').stop()">Stop</button>
+                    <button onclick="$('#main_player').data('plugin_YTController').mute()">Mute</button>
+                    <button onclick="$('#main_player').data('plugin_YTController').unmute()">Unmute</button>
+                </div>
+            </section>
+
+            <div class="spacer"></div>
+
+            <section>
+                <article>
+                    <div class="explanation">
+                        <h3>Getting Started</h3>
+                        <p>YouTubeController depends on the jQuery library, so be sure to include it within your markup.</p>
+                        <div class="code">
+                            <pre>
+                                <code class="html">
+&lt;script src="//code.jquery.com/jquery-latest.min.js"&gt;&lt;/script&gt;
+&lt;script src="//youtube_controller.min.js"&gt;&lt;/script&gt;
+                                </code>
+                            </pre>
+                        </div>
+                        <p>Now that the library is included we simply need to attach the YouTubeController object onto a DOM element. The DOM element will act as the holder for the embedded player.</p><br/><p>Ensure that you tag your html element with either a <span class="codeElem">class</span> or <span class="codeElem">id</span> attribute so that you can reference it via your jquery selector.</p><br/>
+<p>Lastly, the plugin requires at the very a <span class="codeElem">videoId</span> so that we can load a video player properly.</p><small class="comment">If you are wondering where you can find your video's <b>videoId</b> here is a useful <a href="https://www.youtube.com/watch?v=EKyirtVHsK0" title="Find video id" target="_blank">video</a>.</small>
+                        <div class="code">
+                            <pre style="float:left;width:49%;">
+                                <code class="html">
+&lt;!-- HTML --&gt;
+
+&lt;div id="playerId"&gt;
+...
+&lt;/div&gt;
+                                </code>
+                            </pre>
+                            <pre style="float:right;width:49%;">
+                                <code class="javascript">
+// Javascript
+
+var controller = $("#playerId").YTController({
+    videoId: "A_youtube_video_id"
+});
+                                </code>
+                            </pre>
+
+                            <p></p>
+
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </article>
+                <div class="clear"></div>
+            </section>
+
+            <div class="spacer"></div>
+
+            <section>
+                <article>
+                    <div class="explanation">
+                        <h3>Options</h3>
+                        <p>You can configure the player with the following settings:</p>
+                        <span class="codeElem transparent">$("#playerId").YTController({</span>
+                        <dl>
+                            <dt>apiKey</dt>
+                            <dd>
+                                <p>Token which grants access to the Youtube Data API (v3). Having this will allow the controller to make REST calls to the YouTube Data API to gather info about playlists, video statistics and more.</p><br/><p>To get the full benefit of the controller you should <a href="https://developers.google.com/youtube/registering_an_application" title="Create YouTube API Key" target="_blank">create a new key</a>.</p>
+                            </dd>
+                            <dt>displayPlaylist</dt>
+                            <dd>
+                                <p>Flag that indicates whether you want to display the playlist information.</p><small class="comment">Inorder for the playlist to display you need to also provide a <span class="codeElem">playListId</span>.</small>
+                        <div class="code">
+                            </dd>
+                            <dt>embeddedPlyrVars</dt>
+                            <dd>
+                                <p>An object which allows you to ...</p>
+                            </dd>
+                            <dt>height</dt>
+                            <dd>
+                                <p>The height of the embedded player.</p>
+                            </dd>
+                            <dt>listItemClickHandler</dt>
+                            <dd>
+                                <p>A callback function which is triggered when a playlist item has been clicked.</p>
+                            </dd>
+                            <dt>listItemHTMLTemplate</dt>
+                            <dd>
+                                <p>An HTML template to display playlist information.</p>
+                                <ol>
+                                    <li><span class="codeElem">[playlistItem_thumb]</span> The playlist thumb.</li>
+                                    <li><span class="codeElem">[playlistItem_timestamp]</span> The date when the video was uploaded.</li>
+                                    <li><span class="codeElem">[playlistItem_title]</span> The title of the playlist video.</li>
+                                    <li><span class="codeElem">[playlistItem_description]</span> The description of the playlist video.</li>
+                                </ol>
+                            </dd>
+                            <dt>listItemThumbNailJSONPath</dt>
+                            <dd>
+                                <p>A simple xpath like path to the thumbnail image.</p>
+                            </dd>
+                            <dt>maxNumListItems</dt>
+                            <dd>
+                                <p>An number indicating how many playlist items to display.</p>
+                            </dd>
+                            <dt>onApiChangeHandler</dt>
+                            <dd>
+                                <p>A callback function which is triggered when ....</p>
+                            </dd>
+                            <dt>onErrorHandler</dt>
+                            <dd>
+                                <p>A callback function when an error occurs.</p>
+                            </dd>
+                            <dt>onPlaybackQChangeHandler</dt>
+                            <dd>
+                                <p>A callback function when the playback quality has changed.</p>
+                            </dd>
+                            <dt>onPlaybackRChangeHandler</dt>
+                            <dd>
+                                <p>A callback function when the playback rate has changed.</p>
+                            </dd>
+                            <dt>onReadyEvtHandler</dt>
+                            <dd>
+                                <p>A callback function when the player has been initialized.</p>
+                            </dd>
+                            <dt>onStateChangeHandler</dt>
+                            <dd>
+                                <p>A callback function when the player has changed states: Playing, Stopped, Paused, etc.</p>
+                            </dd>
+                            <dt>playListId</dt>
+                            <dd>
+                                <p>An id referring to a YouTube playlist.</p>
+                            </dd>
+                            <dt>playListParentId</dt>
+                            <dd>
+                                <p>An HTML element which refers to where the playlist items should exist.</p>
+                            </dd>
+                            <dt>videoId</dt>
+                            <dd>
+                                <p>An id referring to a YouTube video.</p>
+                            </dd>
+                            <dt>width</dt>
+                            <dd>
+                                <p>The width of the embedded player.</p>
+                            </dd>
+                        </dl>
+                        <span class="codeElem transparent">]);</span>
+                    </div>
+                </article>
+                <div class="clear"></div>
+            </section>
+            <div class="spacer"></div>
+            <section>
+                <article>
+                    <div class="explanation">
+                        <h3>API / Methods</h3>
+                        <p>YouTubeController depends on the jQuery library, so be sure to include it within your markup.</p>
+                        <dl class="methods">
+                            <dt class="codeElem method">play()</dt>
+                            <dd>
+                                <p>Plays the player video.</p>
+                            </dd>
+                            <dt class="codeElem method">stop()</dt>
+                            <dd>
+                                <p>Stops the player video.</p>
+                            </dd>
+                            <dt class="codeElem method">pause()</dt>
+                            <dd>
+                                <p>Pauses the player video.</p>
+                            </dd>
+                            <dt class="codeElem method">previous()</dt>
+                            <dd>
+                                <p>Plays the previous video from the playlist, if there exists one.</p>
+                            </dd>
+                            <dt class="codeElem method">next()</dt>
+                            <dd>
+                                <p>Plays the next video from the playlist, if there exists one.</p>
+                            </dd>
+                            <dt class="codeElem method">mute()</dt>
+                            <dd>
+                                <p>Mutes the volume from the player.</p>
+                            </dd>
+                            <dt class="codeElem method">unmute()</dt>
+                            <dd>
+                                <p>Unmutes the volume from the player.</p>
+                            </dd>
+                            <dt class="codeElem method">stats()</dt>
+                            <dd>
+                                <p>Retrieves the statistics from the player.</p>
+                            </dd>
+                            <dt class="codeElem method">getPlayer()</dt>
+                            <dd>
+                                <p>Retrieves the player so that you can access the whole set of api methods.</p>
+                            <dt class="codeElem method">destroy()</dt>
+                            <dd>
+                                <p>Removes the controller object from the DOM element.</p>
+                            </dd>
+                        </dl>
+                    </div>
+                </article>
+            </section>
+            <section>
+                <div class="buttons">
+                    <a href="https://github.com/WatersChurch/web_tools/zipball/master" class="download">
+                        <span>Download</span>
+                    </a>
+                    <a href="https://github.com/WatersChurch/web_tools/tree/master/js/youtube_controller" class="source">
+                        <span>View Source</span>
+                    </a>
+                </div>
+            </section>
+            <section>
+                <h3>Changelog</h3>
+                <ul id="changelog">
+                    <li><span class="version">v0.1.0</span>Initial release, Supports only <a href="https://developers.google.com/youtube/v3/docs/playlistItems" title="PlaylistItems Resource" target="_blank">PlaylistItems</a> resource requests.</li>
+                 </ul>
+            </section>
+        </div>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+        <script type="text/javascript" src="js/youtube_controller.js"></script>
+        <script>
+            $(document).ready(function(){
+                hljs.initHighlightingOnLoad();
+                
+                $("#main_player").YTController(
+                    { 
+                        embeddedPlyrVars: {
+                            controls: 0,
+                            showinfo: 0,
+                            autohide: 1,
+                            disablekb: 1
+                        },
+                        width:"100%",
+                        height:"500",
+                        videoId: "zSWdZVtXT7E"
+                    }
+                );
+
+                $("#player").YTController(
+                    { 
+                        width:"100%",
+                        height:"300",
+                        videoId: "l0g4oROnqPY"
+                    }
+                );
+
+                function isScrolledTo(elem) {
+                   var docViewTop = $(window).scrollTop(); //num of pixels hidden above current screen
+                   var docViewBottom = docViewTop + $(window).height();
+                
+                   var elemTop = $(elem).offset().top; //num of pixels above the elem
+                   var elemBottom = elemTop + $(elem).height();
+                
+                   return ((elemTop <= docViewTop));
+                }
+
+                var catcher = $('#catcher');
+                var sticky = $('#sticky');
+                
+                $(window).scroll(function() {
+                    if(isScrolledTo(sticky)) {
+                        sticky.css('position','fixed');
+                        sticky.css('top','0px');
+                    } 
+                    var stopHeight = catcher.offset().top + catcher.height();
+                    if ( stopHeight > sticky.offset().top) {
+                        sticky.css('position','absolute');
+                        sticky.css('top',stopHeight);
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
