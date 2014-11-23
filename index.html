@@ -33,16 +33,19 @@
             <div class="spacer"></div>
 
             <section>
-                <div id="main_player"></div>
-                <div id="main_player_playlist"></div>
-                <div id="main_player_ctrls">
-                    <button onclick="$('#main_player').data('plugin_YTController').play()">Play</button>
-                    <button onclick="$('#main_player').data('plugin_YTController').next()">Next</button>
-                    <button onclick="$('#main_player').data('plugin_YTController').previous()">Previous</button>
-                    <button onclick="$('#main_player').data('plugin_YTController').pause()">Pause</button>
-                    <button onclick="$('#main_player').data('plugin_YTController').stop()">Stop</button>
-                    <button onclick="$('#main_player').data('plugin_YTController').mute()">Mute</button>
-                    <button onclick="$('#main_player').data('plugin_YTController').unmute()">Unmute</button>
+                <div id="main_player">
+                    <div id="main_player_iframe"></div>
+                    <ol id="main_player_playlist"></ol>
+                    <div id="main_player_ctrls">
+                        <button onclick="$('#main_player_iframe').data('plugin_YTController').play()">Play</button>
+                        <button onclick="$('#main_player_iframe').data('plugin_YTController').next()">Next</button>
+                        <button onclick="$('#main_player_iframe').data('plugin_YTController').previous()">Previous</button>
+                        <button onclick="$('#main_player_iframe').data('plugin_YTController').pause()">Pause</button>
+                        <button onclick="$('#main_player_iframe').data('plugin_YTController').stop()">Stop</button>
+                        <button onclick="$('#main_player_iframe').data('plugin_YTController').mute()">Mute</button>
+                        <button onclick="$('#main_player_iframe').data('plugin_YTController').unmute()">Unmute</button>
+                    </div>
+                    <div class="clear"></div>
                 </div>
             </section>
 
@@ -77,7 +80,7 @@
                                 </pre>
                             </li>
                             <li>
-                            <p>Attach the YouTubeController object onto our html element, add the required <span class="codeElem">videoId</span> and your <span style="color:#cc181e;font-weight:bold;">done!</span></p><small class="comment">If you are wondering where you can find your video's <b>videoId</b> here is a helpful <a href="https://www.youtube.com/watch?v=EKyirtVHsK0" title="Find video id" target="_blank">video</a>.</small>
+                            <p>Attach the YouTubeController object onto your html element, add the required <span class="codeElem">videoId</span> and you're <span style="color:#cc181e;font-weight:bold;">done!</span></p><small class="comment">If you are wondering where you can find your video's <b>videoId</b> here is a helpful <a href="https://www.youtube.com/watch?v=EKyirtVHsK0" title="Find video id" target="_blank">video</a>.</small>
                             <pre>
                                 <code class="javascript">
 // JavaScript
@@ -140,7 +143,7 @@ var ytController = $("#playerId").YTController({
                                         </code>
                                     </pre>
                                 </small>
-                                <p>You can generate any nested or un-nested markup you'd like, just as long as you have these special tokens.</p>
+                                <p>You can generate any nested or un-nested markup you'd like, just as long as you have one or more of these special tokens.</p>
                                 <ol>
                                     <li>
                                         <span class="codeElem">[playlistItem_thumb]</span>The video thumbnail.
@@ -158,7 +161,7 @@ var ytController = $("#playerId").YTController({
                             </dd>
                             <dt>maxNumListItems</dt>
                             <dd>
-                                <p>An number indicating how many playlist items to display.</p>
+                                <p>A number indicating how many playlist items to display.</p>
                             </dd>
                             <dt>onApiChangeHandler</dt>
                             <dd>
@@ -220,12 +223,14 @@ var ytController = $("#playerId").YTController({
                             <pre>
                                 <code class="javascript">
 // Configure the controller to your liking and save the returned controller object into a variable.
+
 var ytController = $("#playerId").YTController({
     videoId: "youtube_video_id"
     ... // Additional parameters
 });
 
 // Call methods on the returned controller object.
+
 ytController.play();
                                 </code>
                             </pre>
@@ -307,41 +312,45 @@ ytController.play();
         <script type="text/javascript" src="js/youtube_controller.js" defer onload="init()"></script>
         <script>
             function init(){
-                $(document).ready(function() {
-
-                    $("#main_player").YTController({
-                        playerVars: {
-                            controls: 0,
-                            showinfo: 0,
-                            autohide: 1,
-                            disablekb: 1
-                        },
-                        displayPlaylist: false,
-                        maxNumListItems: 10,
-                        videoId: "0vxOhd4qlnA",
-                        playListId: "PLxnVeUnlga-G-s7bv7T6N-KzUuUT_grOY",
-                        playListParentId: "#main_player_playlist",
-                        apiKey: "AIzaSyCmq9OXz3ezp883KTeRFSyygzvzdnRKHJ4",
-                        width: "100%",
-                        height: "500"
-                    });
-
-
-                    // Analytics
-                    var _gaq = _gaq || [];
-                    _gaq.push(['_setAccount', 'UA-7913867-2']);
-                    _gaq.push(['_setDomainName', '.waterschurch.org']);
-                    _gaq.push(['_trackPageview']);
-
-                    (function() {
-                        var ga = document.createElement('script');
-                        ga.type = 'text/javascript';
-                        ga.async = true;
-                        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                        var s = document.getElementsByTagName('script')[0];
-                        s.parentNode.insertBefore(ga, s);
-                    })();
+                $("#main_player_iframe").YTController({
+                    playerVars: {
+                        controls: 0,
+                        showinfo: 0,
+                        autohide: 1,
+                        disablekb: 1
+                    },
+                    displayPlaylist: true,
+                    maxNumListItems: 10,
+                    videoId: "6k8qeqZycgE",
+                    listItemHTMLTemplate: "<li class='listExp'><img src='[playlistItem_thumb]' class='listExp_thumb'/><h4>[playlistItem_title]</h4><p class='listExp_description'>[playlistItem_description]</p></li>",
+                    playListId: "PLfPBohF1uFwpaZaghq5bIinxRIQykp9xz",
+                    playListParentId: "#main_player_playlist",
+                    onStateChangeHandler: updateListIndices,
+                    apiKey: "AIzaSyCmq9OXz3ezp883KTeRFSyygzvzdnRKHJ4",
+                    width: "100%",
+                    height: "500"
                 });
+
+                // Update playlist indices
+                function updateListIndices(evt) {
+                    var idx = evt.target.getPlaylistIndex();
+                    $("#main_player_playlist").children().removeClass("active").eq(idx).addClass("active");
+                }
+
+                // Analytics
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', 'UA-7913867-2']);
+                _gaq.push(['_setDomainName', '.waterschurch.org']);
+                _gaq.push(['_trackPageview']);
+
+                (function() {
+                    var ga = document.createElement('script');
+                    ga.type = 'text/javascript';
+                    ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0];
+                    s.parentNode.insertBefore(ga, s);
+                })();
             }
         </script>
     </body>
