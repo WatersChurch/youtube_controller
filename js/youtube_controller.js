@@ -143,7 +143,7 @@
                 height: settings.height,
                 width: settings.width,
                 videoId: settings.videoId,
-                playerVars: settings.playerVars,
+                playerVars: $.extend({}, {list:settings.playListId}, settings.playerVars),
                 events: {
                     'onReady': settings.onReadyEvtHandler,
                     'onStateChange': settings.onStateChangeHandler,
