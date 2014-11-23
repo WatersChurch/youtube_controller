@@ -73,19 +73,17 @@ body {
 }
 
 dt {
-  float: left;
-  clear: left;
-  width: 100px;
-  font-weight: bold;
-  color: #cc181e;
+    float: left;
+    clear: left;
+    width: 100px;
+    font-weight: bold;
+    color: #cc181e;
 }
 
 dt.method{
     text-align: center;
-    margin-right: 15px;
-    color: white;
-    background: #282b2e;
-    font-weight: normal;
+    padding: 4px 0;
+    color: #cc181e;
     box-shadow: none;
 }
 
@@ -96,13 +94,17 @@ dd {
 }
 
 dl.methods > dd{
-    margin: 0 0 0px 140px;
+    margin: 0 0 10px 140px;
     display: block;
-    line-height: 41px;
 }
 
 dl {
     margin: 10px 40px;
+}
+
+#main_player_playlist{
+    border: 1px solid red;
+    float: right;
 }
 
 #main_player_ctrls{
@@ -124,6 +126,38 @@ dl {
 #changelog .version{
     margin-right: 10px;
     font-weight: bold;
+}
+
+ol {
+    display:block;
+    padding: 0 0 0 26px;
+    counter-reset: listNum;
+    list-style-type: none;
+}
+
+ol li:before {
+    counter-increment: listNum;
+    content: counter(listNum);
+    position: absolute;
+    left: -28px;
+    text-align: center;
+    font-size: 0.9em;
+    line-height: 20px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #cc181e;
+    -moz-border-radius: 999px;
+    border-radius: 999px;
+    font-weight: bold;
+}
+
+ol li {
+    position: relative;
+    padding-left: 20px;
+}
+
+li{
+    padding-top: 10px;
 }
 
 #changelog li{
@@ -222,11 +256,12 @@ section > article .explanation {
 .comment{
     margin-top: 10px;
     display: block;
+    line-height: 20px;
 }
 
 .comment:before{
     content: "\f178";
-    color: #cdcdcd;
+    color: #cc181e;
     font-family: "FontAwesome";
     margin-right: 10px;
 }

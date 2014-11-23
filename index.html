@@ -2,10 +2,14 @@
 <html>
     <head>
         <title>YouTube Controller.js</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="YouTube Data API v3 jQuery plugin">
+        <meta name="author" content="Woody Romelus">
         <link type="text/css" rel="stylesheet" href="css/styles.css" />
         <link type="text/css" rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" />
         <link type="text/css" rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/obsidian.min.css" />
     </head>
+    
     <body>
         <div id="contentWrapper">
             <header>
@@ -17,10 +21,10 @@
             <section>
                 <h2>A jQuery plugin enabling you to control YouTube video players.</h2>
                 <div class="buttons">
-                    <a href="https://github.com/WatersChurch/web_tools/zipball/master" class="download">
+                    <a href="https://github.com/WatersChurch/youtube_controller/archive/master.zip" class="download">
                         <span>Download</span>
                     </a>
-                    <a href="https://github.com/WatersChurch/web_tools/tree/master/js/youtube_controller" class="source">
+                    <a href="https://github.com/WatersChurch/youtube_controller/tree/master" class="source">
                         <span>View Source</span>
                     </a>
                 </div>
@@ -30,8 +34,11 @@
 
             <section>
                 <div id="main_player"></div>
+                <div id="main_player_playlist"></div>
                 <div id="main_player_ctrls">
                     <button onclick="$('#main_player').data('plugin_YTController').play()">Play</button>
+                    <button onclick="$('#main_player').data('plugin_YTController').next()">Next</button>
+                    <button onclick="$('#main_player').data('plugin_YTController').previous()">Previous</button>
                     <button onclick="$('#main_player').data('plugin_YTController').pause()">Pause</button>
                     <button onclick="$('#main_player').data('plugin_YTController').stop()">Stop</button>
                     <button onclick="$('#main_player').data('plugin_YTController').mute()">Mute</button>
@@ -45,44 +52,45 @@
                 <article>
                     <div class="explanation">
                         <h3>Getting Started</h3>
-                        <p>YouTubeController depends on the jQuery library, so be sure to include it within your markup.</p>
-                        <div class="code">
-                            <pre>
-                                <code class="html">
+                        <ol>
+                            <li>
+                                <p>YouTubeController depends on the jQuery library, so be sure to include it within your markup.</p>
+                                <div class="code">
+                                    <pre>
+                                        <code class="html">
 &lt;script src="//code.jquery.com/jquery-latest.min.js"&gt;&lt;/script&gt;
 &lt;script src="//youtube_controller.min.js"&gt;&lt;/script&gt;
-                                </code>
-                            </pre>
-                        </div>
-                        <p>Now that the library is included we simply need to attach the YouTubeController object onto a DOM element. The DOM element will act as the holder for the embedded player.</p><br/><p>Ensure that you tag your html element with either a <span class="codeElem">class</span> or <span class="codeElem">id</span> attribute so that you can reference it via your jquery selector.</p><br/>
-<p>Lastly, the plugin requires at the very a <span class="codeElem">videoId</span> so that we can load a video player properly.</p><small class="comment">If you are wondering where you can find your video's <b>videoId</b> here is a useful <a href="https://www.youtube.com/watch?v=EKyirtVHsK0" title="Find video id" target="_blank">video</a>.</small>
-                        <div class="code">
-                            <pre style="float:left;width:49%;">
-                                <code class="html">
+                                        </code>
+                                    </pre>
+                                </div>
+                            </li>
+                            <li>
+                                <p>Tag your html element with either a <span class="codeElem">class</span> or <span class="codeElem">id</span> attribute so that the controller can reference it.</p>
+                                <pre>
+                                    <code class="html">
 &lt;!-- HTML --&gt;
 
 &lt;div id="playerId"&gt;
 ...
 &lt;/div&gt;
-                                </code>
-                            </pre>
-                            <pre style="float:right;width:49%;">
+                                    </code>
+                                </pre>
+                            </li>
+                            <li>
+                            <p>Attach the YouTubeController object onto our html element, add the required <span class="codeElem">videoId</span> and your <span style="color:#cc181e;font-weight:bold;">done!</span></p><small class="comment">If you are wondering where you can find your video's <b>videoId</b> here is a helpful <a href="https://www.youtube.com/watch?v=EKyirtVHsK0" title="Find video id" target="_blank">video</a>.</small>
+                            <pre>
                                 <code class="javascript">
-// Javascript
+// JavaScript
 
-var controller = $("#playerId").YTController({
-    videoId: "A_youtube_video_id"
+var ytController = $("#playerId").YTController({
+    videoId: "youtube_video_id"
 });
                                 </code>
                             </pre>
-
-                            <p></p>
-
-                            <div class="clear"></div>
-                        </div>
+                            </li>
+                        </ol>
                     </div>
                 </article>
-                <div class="clear"></div>
             </section>
 
             <div class="spacer"></div>
@@ -90,26 +98,26 @@ var controller = $("#playerId").YTController({
             <section>
                 <article>
                     <div class="explanation">
-                        <h3>Options</h3>
-                        <p>You can configure the player with the following settings:</p>
-                        <span class="codeElem transparent">$("#playerId").YTController({</span>
+                        <h3>Options / Parameters</h3>
+                        <p>You can configure the player with the following settings:</p><br/><span class="codeElem transparent">$("#playerId").YTController({</span>
                         <dl>
                             <dt>apiKey</dt>
                             <dd>
-                                <p>Token which grants access to the Youtube Data API (v3). Having this will allow the controller to make REST calls to the YouTube Data API to gather info about playlists, video statistics and more.</p><br/><p>To get the full benefit of the controller you should <a href="https://developers.google.com/youtube/registering_an_application" title="Create YouTube API Key" target="_blank">create a new key</a>.</p>
+                                <p>Token which grants access to the YouTube Data API (v3). Having this will allow the controller to make REST calls to the YouTube Data API to gather info about playlists, video statistics and more.</p><small class="comment">To get the full benefit of the controller you should <a href="https://developers.google.com/youtube/registering_an_application" title="Create YouTube API Key" target="_blank">create an api key</a>.</small>
                             </dd>
                             <dt>displayPlaylist</dt>
                             <dd>
-                                <p>Flag that indicates whether you want to display the playlist information.</p><small class="comment">Inorder for the playlist to display you need to also provide a <span class="codeElem">playListId</span>.</small>
-                        <div class="code">
+                                <p>Flag indicating whether you want to display playlist information.</p>
+                                <small class="comment">In order for the playlist to display you also need to set <span class="codeElem">playListId</span>.</small>
                             </dd>
-                            <dt>embeddedPlyrVars</dt>
+                            <dt>playerVars</dt>
                             <dd>
-                                <p>An object which allows you to ...</p>
+                                <p>Optional parameters which allows you to configure the player in finer detail.</p>
+                                <small class="comment">Reference <a href="https://developers.google.com/youtube/player_parameters?playerVersion=HTML5#Parameters" title="Player parameters" target="_blank">player parameters</a> for further information.</small>
                             </dd>
                             <dt>height</dt>
                             <dd>
-                                <p>The height of the embedded player.</p>
+                                <p>The height of the embedded iFrame player.</p>
                             </dd>
                             <dt>listItemClickHandler</dt>
                             <dd>
@@ -117,17 +125,36 @@ var controller = $("#playerId").YTController({
                             </dd>
                             <dt>listItemHTMLTemplate</dt>
                             <dd>
-                                <p>An HTML template to display playlist information.</p>
+                                <p>An HTML template to display playlist items.</p>
+                                <small class="comment">
+                                    This is the content that will be generated for each playlist entry. As you can see there are optional special <b>tokens</b> which allow you to display certain info about a playlist entry.
+                                    <pre>
+                                        <code class="html">
+&lt;!-- Default Playlist Item Template --&gt;
+&lt;div&gt;
+    &lt;img src="[playlistItem_thumb]"/&gt;
+    &lt;span&gt;[playlistItem_timestamp]&lt;/span&gt;
+    &lt;h4&gt;[playlistItem_title]&lt;/h4&gt;
+    &lt;p&gt;[playlistItem_description]&lt;/p&gt;
+&lt;/div&gt;
+                                        </code>
+                                    </pre>
+                                </small>
+                                <p>You can generate any nested or un-nested markup you'd like, just as long as you have these special tokens.</p>
                                 <ol>
-                                    <li><span class="codeElem">[playlistItem_thumb]</span> The playlist thumb.</li>
-                                    <li><span class="codeElem">[playlistItem_timestamp]</span> The date when the video was uploaded.</li>
-                                    <li><span class="codeElem">[playlistItem_title]</span> The title of the playlist video.</li>
-                                    <li><span class="codeElem">[playlistItem_description]</span> The description of the playlist video.</li>
+                                    <li>
+                                        <span class="codeElem">[playlistItem_thumb]</span>The video thumbnail.
+                                        <small class="comment">Since there are several thumbnail sizes to choose from you may want to specify <span class="codeElem">listItemThumbNailJSONPath</span></small>
+                                    </li>
+                                    <li><span class="codeElem">[playlistItem_timestamp]</span>The upload date of the video.</li>
+                                    <li><span class="codeElem">[playlistItem_title]</span>The title of the video.</li>
+                                    <li><span class="codeElem">[playlistItem_description]</span>The description of the video.</li>
                                 </ol>
                             </dd>
                             <dt>listItemThumbNailJSONPath</dt>
                             <dd>
-                                <p>A simple xpath like path to the thumbnail image.</p>
+                                <p>A string delimited by periods '.' to represent which thumbnail to choose from. While making a call to the YouTube API a JSON feed is returned in which we traverse for the thumbnail image.</p>
+                                <small class="comment">By default <a href="https://developers.google.com/youtube/v3/docs/thumbnails" title="Thumbnails" target="_blank"><b>thumbnails.default</b></a> is used which is a <b>120px x 90px</b> size image.</small>
                             </dd>
                             <dt>maxNumListItems</dt>
                             <dd>
@@ -135,11 +162,11 @@ var controller = $("#playerId").YTController({
                             </dd>
                             <dt>onApiChangeHandler</dt>
                             <dd>
-                                <p>A callback function which is triggered when ....</p>
+                                <p>A callback function which is triggered when the player has loaded.</p>
                             </dd>
                             <dt>onErrorHandler</dt>
                             <dd>
-                                <p>A callback function when an error occurs.</p>
+                                <p>A callback function when an error occurs within the player.</p>
                             </dd>
                             <dt>onPlaybackQChangeHandler</dt>
                             <dd>
@@ -151,11 +178,12 @@ var controller = $("#playerId").YTController({
                             </dd>
                             <dt>onReadyEvtHandler</dt>
                             <dd>
-                                <p>A callback function when the player has been initialized.</p>
+                                <p>A callback function when the player has finished loading and ready to receive api calls.</p>
                             </dd>
-                            <dt>onStateChangeHandler</dt>
+                                <dt>onStateChangeHandler</dt>
                             <dd>
-                                <p>A callback function when the player has changed states: Playing, Stopped, Paused, etc.</p>
+                                <p>A callback function when the player has changed.</p>
+                                <small class="comment">Some states are: <b>Playing, Stopped, Paused,</b> etc.,</small>
                             </dd>
                             <dt>playListId</dt>
                             <dd>
@@ -163,143 +191,158 @@ var controller = $("#playerId").YTController({
                             </dd>
                             <dt>playListParentId</dt>
                             <dd>
-                                <p>An HTML element which refers to where the playlist items should exist.</p>
+                                <p>An HTML element which contains the playlist items.</p>
+                                <small class="comment">This <b>must</b> be an <b>id</b>, since there should only be one container per id.</small>
                             </dd>
                             <dt>videoId</dt>
                             <dd>
                                 <p>An id referring to a YouTube video.</p>
+                                <small class="comment">This will be the initial video loaded into the player, <b>be sure to set this parameter</b>.</small>
                             </dd>
                             <dt>width</dt>
                             <dd>
-                                <p>The width of the embedded player.</p>
+                                <p>The width of the embedded iFrame player.</p>
                             </dd>
-                        </dl>
+                        </dl> 
                         <span class="codeElem transparent">]);</span>
                     </div>
                 </article>
-                <div class="clear"></div>
             </section>
+
             <div class="spacer"></div>
+
             <section>
                 <article>
                     <div class="explanation">
                         <h3>API / Methods</h3>
-                        <p>YouTubeController depends on the jQuery library, so be sure to include it within your markup.</p>
+                        <p>YouTubeController provides various methods for you to control the embedded iFrame video player.</p>
+                        <div class="code">
+                            <pre>
+                                <code class="javascript">
+// Configure the controller to your liking and save the returned controller object into a variable.
+var ytController = $("#playerId").YTController({
+    videoId: "youtube_video_id"
+    ... // Additional parameters
+});
+
+// Call methods on the returned controller object.
+ytController.play();
+                                </code>
+                            </pre>
+                            <div class="clear"></div>
+                        </div>
+                        
                         <dl class="methods">
                             <dt class="codeElem method">play()</dt>
                             <dd>
-                                <p>Plays the player video.</p>
+                                <p>Plays the loaded video within the player.</p>
                             </dd>
                             <dt class="codeElem method">stop()</dt>
                             <dd>
-                                <p>Stops the player video.</p>
+                                <p>Stops the video within the player.</p>
                             </dd>
                             <dt class="codeElem method">pause()</dt>
                             <dd>
-                                <p>Pauses the player video.</p>
+                                <p>Pauses the video within the player.</p>
                             </dd>
                             <dt class="codeElem method">previous()</dt>
                             <dd>
-                                <p>Plays the previous video from the playlist, if there exists one.</p>
+                                <p>Plays the previous video within the playlist.</p>
+                                <small class="comment">This will only work if the <span class="codeElem">playListId</span> is set on the controller.</small>
                             </dd>
                             <dt class="codeElem method">next()</dt>
                             <dd>
-                                <p>Plays the next video from the playlist, if there exists one.</p>
+                                <p>Plays the next video within the playlist.</p>
+                                <small class="comment">This will only work if the <span class="codeElem">playListId</span> is set on the controller.</small>
                             </dd>
                             <dt class="codeElem method">mute()</dt>
                             <dd>
-                                <p>Mutes the volume from the player.</p>
+                                <p>Mutes the sound of the video within the player.</p>
                             </dd>
                             <dt class="codeElem method">unmute()</dt>
                             <dd>
-                                <p>Unmutes the volume from the player.</p>
+                                <p>Unmutes the sound of the video within the player.</p>
                             </dd>
                             <dt class="codeElem method">stats()</dt>
                             <dd>
-                                <p>Retrieves the statistics from the player.</p>
+                                <p>Retrieves statistics about the video within the player.</p>
                             </dd>
                             <dt class="codeElem method">getPlayer()</dt>
                             <dd>
-                                <p>Retrieves the player so that you can access the whole set of api methods.</p>
+                                <p>Retrieves the video player object.</p>
+                                <small class="comment">This convenient method retrieves the player object allowing you to gain full access to the <a href="https://developers.google.com/youtube/iframe_api_reference" target="_blank" title="IFrame API">YouTube IFrame API</a>.<br/><br/><b>Since we return the player object here, you lose jQuery chainability.</b></small>
+                            </dd>
                             <dt class="codeElem method">destroy()</dt>
                             <dd>
-                                <p>Removes the controller object from the DOM element.</p>
+                                <p>Removes the iframe player as well as references to the controller object on the attached DOM element.</p>
                             </dd>
                         </dl>
                     </div>
                 </article>
             </section>
+
             <section>
                 <div class="buttons">
-                    <a href="https://github.com/WatersChurch/web_tools/zipball/master" class="download">
+                    <a href="https://github.com/WatersChurch/youtube_controller/archive/master.zip" class="download">
                         <span>Download</span>
                     </a>
-                    <a href="https://github.com/WatersChurch/web_tools/tree/master/js/youtube_controller" class="source">
+                    <a href="https://github.com/WatersChurch/youtube_controller/tree/master" class="source">
                         <span>View Source</span>
                     </a>
                 </div>
             </section>
+
             <section>
                 <h3>Changelog</h3>
                 <ul id="changelog">
-                    <li><span class="version">v0.1.0</span>Initial release, Supports only <a href="https://developers.google.com/youtube/v3/docs/playlistItems" title="PlaylistItems Resource" target="_blank">PlaylistItems</a> resource requests.</li>
-                 </ul>
+                    <li>
+                        <span class="version">v1.0.0</span>Initial release, Supports only <a href="https://developers.google.com/youtube/v3/docs/playlistItems" title="PlaylistItems Resource" target="_blank">PlaylistItems</a> resource requests.
+                    </li>
+                </ul>
             </section>
         </div>
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
-        <script type="text/javascript" src="js/youtube_controller.js"></script>
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js" defer></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js" onload="hljs.initHighlightingOnLoad()" async></script>
+        <script type="text/javascript" src="js/youtube_controller.js" defer onload="init()"></script>
         <script>
-            $(document).ready(function(){
-                hljs.initHighlightingOnLoad();
-                
-                $("#main_player").YTController(
-                    { 
-                        embeddedPlyrVars: {
+            function init(){
+                $(document).ready(function() {
+
+                    $("#main_player").YTController({
+                        playerVars: {
                             controls: 0,
                             showinfo: 0,
                             autohide: 1,
                             disablekb: 1
                         },
-                        width:"100%",
-                        height:"500",
-                        videoId: "zSWdZVtXT7E"
-                    }
-                );
+                        displayPlaylist: false,
+                        maxNumListItems: 10,
+                        videoId: "0vxOhd4qlnA",
+                        playListId: "PLxnVeUnlga-G-s7bv7T6N-KzUuUT_grOY",
+                        playListParentId: "#main_player_playlist",
+                        apiKey: "AIzaSyCmq9OXz3ezp883KTeRFSyygzvzdnRKHJ4",
+                        width: "100%",
+                        height: "500"
+                    });
 
-                $("#player").YTController(
-                    { 
-                        width:"100%",
-                        height:"300",
-                        videoId: "l0g4oROnqPY"
-                    }
-                );
 
-                function isScrolledTo(elem) {
-                   var docViewTop = $(window).scrollTop(); //num of pixels hidden above current screen
-                   var docViewBottom = docViewTop + $(window).height();
-                
-                   var elemTop = $(elem).offset().top; //num of pixels above the elem
-                   var elemBottom = elemTop + $(elem).height();
-                
-                   return ((elemTop <= docViewTop));
-                }
+                    // Analytics
+                    var _gaq = _gaq || [];
+                    _gaq.push(['_setAccount', 'UA-7913867-2']);
+                    _gaq.push(['_setDomainName', '.waterschurch.org']);
+                    _gaq.push(['_trackPageview']);
 
-                var catcher = $('#catcher');
-                var sticky = $('#sticky');
-                
-                $(window).scroll(function() {
-                    if(isScrolledTo(sticky)) {
-                        sticky.css('position','fixed');
-                        sticky.css('top','0px');
-                    } 
-                    var stopHeight = catcher.offset().top + catcher.height();
-                    if ( stopHeight > sticky.offset().top) {
-                        sticky.css('position','absolute');
-                        sticky.css('top',stopHeight);
-                    }
+                    (function() {
+                        var ga = document.createElement('script');
+                        ga.type = 'text/javascript';
+                        ga.async = true;
+                        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                        var s = document.getElementsByTagName('script')[0];
+                        s.parentNode.insertBefore(ga, s);
+                    })();
                 });
-            });
+            }
         </script>
     </body>
 </html>
