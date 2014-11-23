@@ -2,8 +2,8 @@
  * YTController.js
  *
  * @author Woody Romelus
- * @version v1.0.1
- * @date 11/04/14
+ * @version v1.0.0
+ * @date 11/22/14
  *
  * Copyright (c) 2014 "YTController.js" Woody Romelus
  * Licensed under the MIT licenses: http://www.opensource.org/licenses/mit-license.php
@@ -25,7 +25,7 @@
         defaults = {
             apiKey: undefined,
             displayPlaylist: false,
-            embeddedPlyrVars: undefined,
+            playerVars: undefined,
             height: "390",
             listItemClickHandler: playVideoAt,
             listItemHTMLTemplate: "<div><img src='[playlistItem_thumb]'/><span>[playlistItem_timestamp]</span><h4>[playlistItem_title]</h4><p>[playlistItem_description]</p></div>",
@@ -37,7 +37,7 @@
             onPlaybackRChangeHandler: $.noop,
             onReadyEvtHandler: $.noop,
             onStateChangeHandler: $.noop,
-            playlistId: undefined,
+            playListId: undefined,
             playListParentId: undefined,
             videoId: undefined,
             width: "640"
@@ -93,7 +93,8 @@
             $($(this).data().settings.playListParentId).children().off();
             // Remove MetaData on DOM element
             $(this).removeData();
-
+            // Remove iframe player
+            getPlayer(this).destroy();
         };
     };
 
@@ -142,7 +143,7 @@
                 height: settings.height,
                 width: settings.width,
                 videoId: settings.videoId,
-                playerVars: settings.embeddedPlyrVars,
+                playerVars: settings.playerVars,
                 events: {
                     'onReady': settings.onReadyEvtHandler,
                     'onStateChange': settings.onStateChangeHandler,
@@ -165,12 +166,12 @@
      */
     function displayPlaylist(controller) {
         var settings = controller.settings;
-        if (settings.displayPlaylist && typeof settings.playlistId == "string") {
+        if (settings.displayPlaylist && typeof settings.playListId == "string") {
             var params = {
                 part: "snippet",
                 maxResults: settings.maxNumListItems,
                 key: settings.apiKey,
-                playlistId: settings.playlistId
+                playlistId: settings.playListId
             };
             getJSONRequest(YT_RESOURCE + YT_PLAYLIST_ITEMS_RESOURCE, params,
                 function(data) {
