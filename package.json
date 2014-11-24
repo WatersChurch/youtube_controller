@@ -1,0 +1,28 @@
+{
+  "name": "youtube_controller",
+  "version": "1.0.0",
+  "description": "jQuery plugin for controlling YouTube embedded video players.",
+  "main": "js/youtube_controller.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WatersChurch/youtube_controller.git"
+  },
+  "keywords": [
+    "plugin",
+    "jquery-plugin",
+    "youtube",
+    "v3",
+    "youtube",
+    "data",
+    "api"
+  ],
+  "author": "Woody Romelus <romelus.w@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WatersChurch/youtube_controller/issues"
+  },
+  "homepage": "https://github.com/WatersChurch/youtube_controller"
+}

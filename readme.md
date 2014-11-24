@@ -10,7 +10,7 @@ Define a HTML element which will contain the embedded video player.
 ```
 Attach the `YTController` object onto any DOM element.
 ```javascript
-jQuery("#yt_player").YTController({
+jQuery("#player_id").YTController({
     width: "100%",
     height: "422",
     videoId: "6k8qeqZycgE"
