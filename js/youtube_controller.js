@@ -134,7 +134,7 @@
     /**
      * Iframe API initialization
      */
-    onYouTubePlayerAPIReady = function() {
+    onYouTubeIframeAPIReady = function() {
         $.each(jqueryObserverElems, function(indx, obj) {
             var controller = $(obj).data(pluginName);
             var elementId = $(controller.domElement).attr("id");
